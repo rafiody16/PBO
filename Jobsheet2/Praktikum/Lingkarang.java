@@ -20,7 +20,7 @@ public class Lingkarang {
 
 }
 
-class Main {
+class MainCircle {
 
     public static void main(String[] args) {
         

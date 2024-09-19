@@ -1,5 +1,4 @@
 package Praktikum;
-
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 

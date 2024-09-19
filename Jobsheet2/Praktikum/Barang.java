@@ -15,7 +15,7 @@ public class Barang {
     }
 
     public int hitungHarga() {
-        return (int) (hargaDasar - (diskon * hargaDasar));
+        return (int) (hargaDasar - ((diskon / 100) * hargaDasar));
     }
 
     public void tampilData(){
@@ -24,20 +24,20 @@ public class Barang {
         System.out.println("Kode Barang : " + kode);
         System.out.println("Nama : " + namaBarang);
         System.out.println("Harga Dasar : " + hargaDasar);
-        System.out.println("Diskon : " + diskon);
-        System.out.println("Harga Akhir : " + hitungHarga());
+        System.out.println("Diskon : " + diskon + "%");
+        System.out.println("Harga Akhir : Rp. " + hitungHarga());
         System.out.println("=========================================================");
         System.out.println();
     }
     
 }
 
-class Main{
+class MainBarang{
 
     public static void main(String[] args) {
         
         Barang b = new Barang();
-        b.inputBarang("B001", "Buku Tulis", 20000, 0.5f);
+        b.inputBarang("B001", "Buku Tulis", 20000, 50.0f);
         b.tampilData();
 
     }
