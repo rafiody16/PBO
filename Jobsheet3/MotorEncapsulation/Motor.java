@@ -1,4 +1,4 @@
-package Jobsheet3.MotorEncapsulation;
+package MotorEncapsulation;
 
 public class Motor {
 
