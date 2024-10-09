@@ -1,3 +1,4 @@
+package Percobaan1;
 /**
  * ClassA
  */
