@@ -10,12 +10,10 @@ public class MainVoting {
         Scanner scanner = new Scanner(System.in);
         int choice;
 
-        // Seed: Menambahkan akun voter contoh
         VoterAcc ac = new VoterAcc("dave", "dave123");
         Voter voter69 = new Voter(1, "Dave", 21, ac);
         votingSystem.addVoter(voter69);
 
-        // Loop untuk login
         boolean loggedIn = false;
         while (!loggedIn) {
             System.out.println("Welcome to Voting System");
@@ -24,10 +22,9 @@ public class MainVoting {
             System.out.print("Password: ");
             String password = scanner.next();
 
-            // Cek apakah login sebagai admin
             if (username.equals("admin") && password.equals("password")) {
-                loggedIn = true;  // Admin berhasil login
-                while (true) {
+                loggedIn = true;
+                while (loggedIn) {
                     System.out.println("\nAdmin Menu:");
                     System.out.println("1. Tambah Pemilih ");
                     System.out.println("2. Daftar Pemilih ");
@@ -45,7 +42,6 @@ public class MainVoting {
 
                     switch (choice) {
                         case 1:
-                            // Tambah pemilih
                             System.out.print("Masukkan ID: ");
                             int voterId = scanner.nextInt();
                             System.out.print("Masukkan nama: ");
@@ -63,7 +59,6 @@ public class MainVoting {
                             break;
 
                         case 2:
-                            // Daftar pemilih
                             List<Voter> voterList = votingSystem.getVoter();
                             System.out.println("Daftar Pemilih:");
                             for (Voter voter2 : voterList) {
@@ -85,7 +80,6 @@ public class MainVoting {
                             break;
 
                         case 4:
-                            // Daftar kandidat
                             List<Kandidat> kandidatList = votingSystem.getKandidat();
                             System.out.println("Daftar Kandidat:");
                             for (Kandidat kandidat2 : kandidatList) {
@@ -94,7 +88,6 @@ public class MainVoting {
                             break;
 
                         case 5:
-                            // Update voter
                             System.out.print("Masukkan id voter untuk update: ");
                             int updateVoterId = scanner.nextInt();
                             System.out.print("Masukkan nama baru: ");
@@ -106,7 +99,6 @@ public class MainVoting {
                             break;
 
                         case 6:
-                            // Update kandidat
                             System.out.print("Enter kandidat ID to update: ");
                             int updateKandidatId = scanner.nextInt();
                             System.out.print("Enter new kandidat name: ");
@@ -118,14 +110,12 @@ public class MainVoting {
                             break;
 
                         case 7:
-                            // Delete voter
                             System.out.print("Enter voter ID to delete: ");
                             int deleteVoterId = scanner.nextInt();
                             admin.deleteVoter(votingSystem, deleteVoterId);
                             break;
 
                         case 8:
-                            // Delete kandidat
                             System.out.print("Enter kandidat ID to delete: ");
                             int deleteKandidatId = scanner.nextInt();
                             admin.deleteKandidat(votingSystem, deleteKandidatId);
@@ -133,27 +123,25 @@ public class MainVoting {
                         case 9:
                             loggedIn = false; 
                             System.out.println("Admin logged out.");
-                            return;
+                            break;
                         case 0:
                             System.out.println("Exiting...");
-                            return;
+                            break;
 
                         default:
                             System.out.println("Invalid choice. Please try again.");
                     }
                 }
             } else if (votingSystem.loginVoter(username, password)) {
-                // Jika login sebagai voter
                 loggedIn = true;
                 while (true) {
                     System.out.println("\nVoting System");
-                    System.out.println("1. Pilih Kandidat\n2. Hasil Voting\n3. Logout");
+                    System.out.println("1. Pilih Kandidat\n2. Hasil Voting\n3. Logout\n4. Exit");
                     System.out.print("Enter your choice: ");
                     choice = scanner.nextInt();
                     
                     switch (choice) {
                         case 1:
-                            // Pilih kandidat
                             List<Kandidat> kandidatList = votingSystem.getKandidat();
                             System.out.println("Daftar Kandidat:");
                             for (Kandidat kandidat2 : kandidatList) {
@@ -165,44 +153,27 @@ public class MainVoting {
                             break;
 
                         case 2:
-                            // Lihat hasil voting
                             votingSystem.hasilVoting();
                             break;
 
                         case 3:
-                            // Logout
                             loggedIn = false;
                             break;
 
+                        case 4:
+                            System.out.println("Exiting...");
+                            break;
+
                         default:
-                            System.out.println("Invalid choice. Please try again.");
+                            
                     }
 
-                    if (!loggedIn) break;  // Break if user logs out
+                    if (!loggedIn) break;
                 }
             } else {
-                // Jika login gagal
                 System.out.println("Username atau password salah. Coba lagi.");
             }
         }
-        // Add Kandidats to the voting system
-        // votingSystem.addKandidat(Kandidat1);
-        // votingSystem.addKandidat(Kandidat2);
-
-        // List<Kandidat> kandidatList = votingSystem.getKandidat();
-        // for (Kandidat kandidat : kandidatList) {
-        //     System.out.println(kandidat.getId() + ". "+ kandidat.getNama() + " (" + kandidat.getPartai() + ")");
-        // }
-
-        // // Cast votes
-        // Scanner sc = new Scanner(System.in);
-        // System.out.print("Enter the ID of the candidate you want to vote for: ");
-        // int candidateId = sc.nextInt();
-        // votingSystem.pilihKandidat(candidateId);
-
-        // // Display the vote results
-        // votingSystem.hasilVoting();
-    
-        // sc.close();
+        scanner.close();
     }
 }
