@@ -5,6 +5,7 @@ public class VotingSystem {
     private List<Voter> voter;
     private List<Kandidat> kandidat;
     private List<Vote> vote;
+    private List<Vote> admin;
 
     public VotingSystem() {
         voter = new ArrayList<>();
@@ -60,6 +61,7 @@ public class VotingSystem {
         }
         return false;
     }
+
 
     public void hasilVoting() {
         int totalVotes = 0;

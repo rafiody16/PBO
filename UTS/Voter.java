@@ -23,7 +23,12 @@ public class Voter extends Person{
         return account;
     }
 
+
     public void setAccount(VoterAcc account) {
+        this.account = account;
+    }
+
+    public void addAccount(VoterAcc account) {
         this.account = account;
     }
     
