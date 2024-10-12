@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class MainVoting {
@@ -13,13 +14,20 @@ public class MainVoting {
         votingSystem.addKandidat(Kandidat1);
         votingSystem.addKandidat(Kandidat2);
 
+        List<Kandidat> kandidatList = votingSystem.getKandidat();
+        for (Kandidat kandidat : kandidatList) {
+            System.out.println(kandidat.getId() + ". "+ kandidat.getNama() + " (" + kandidat.getPartai() + ")");
+        }
+
         // Cast votes
-        votingSystem.addVote(new Vote(Kandidat1));
-        votingSystem.addVote(new Vote(Kandidat1));
-        votingSystem.addVote(new Vote(Kandidat2));
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the ID of the candidate you want to vote for: ");
+        int candidateId = sc.nextInt();
+        votingSystem.pilihKandidat(candidateId);
 
         // Display the vote results
         votingSystem.hasilVoting();
     
+        sc.close();
     }
 }

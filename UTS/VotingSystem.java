@@ -32,6 +32,26 @@ public class VotingSystem {
         return kandidat;
     }
 
+    public Kandidat getKandidatById(int id) {
+        for (Kandidat kandidat : kandidat) {
+            if (kandidat.getId() == id) {
+                return kandidat;
+            }
+        }
+        return null;
+    }
+
+    public void pilihKandidat(int idKandidat) {
+        Kandidat kandidat = getKandidatById(idKandidat);
+        if (kandidat != null) {
+            Vote vote = new Vote(idKandidat, this);
+            addVote(vote);
+            System.out.println("Kandidat dipilih");
+        } else {
+            System.out.println("Kandidat tidak ditemukan");
+        }
+    }
+
     public boolean loginVoter(String username, String password) {
         for (Voter voter : voter) {
             if (voter.getAccount().getUsername().equals(username) && voter.getAccount().getPassword().equals(password)) {
@@ -61,11 +81,11 @@ public class VotingSystem {
                 winner = kandidat;
             }
 
-            System.out.println(kandidat.getNama() + " (" + kandidat.getPartai() + "): " + candidateVotes + " votes");    
+            System.out.println(kandidat.getNama() + " (" + kandidat.getPartai() + "): " + candidateVotes + " suara");    
         }
 
-        System.out.println("Total votes: " + totalVotes);
-        System.out.println("Winner: " + winner.getNama() + " (" + winner.getPartai() + ") with " + maxVotes + " votes");
+        System.out.println("Total Suara: " + totalVotes);
+        System.out.println("Pemenang: " + winner.getNama() + " (" + winner.getPartai() + ") dengan " + maxVotes + " suara");
 
     }
 
