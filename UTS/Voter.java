@@ -4,7 +4,7 @@ public class Voter extends Person{
     private VoterAcc account;
     private boolean isVoting;
 
-    public Voter(int id, String nama, int umur, VoterAcc account) {
+    public Voter(int id, String nama, int umur) {
         super(id, nama);
         this.umur = umur;  
         this.account = account;
@@ -22,16 +22,7 @@ public class Voter extends Person{
     public VoterAcc getAccount() {
         return account;
     }
-
-
-    public void setAccount(VoterAcc account) {
-        this.account = account;
-    }
-
-    public void addAccount(VoterAcc account) {
-        this.account = account;
-    }
-
+    
     public boolean isVoting() {
         return isVoting;
     }

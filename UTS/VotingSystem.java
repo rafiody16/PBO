@@ -41,6 +41,15 @@ public class VotingSystem {
         return null;
     }
 
+    public void updateVoter(String newName, String newUsername, String newPassword, int newAge) {
+        for (Voter voter : getVoter()) {
+                voter.setNama(newName);
+                voter.getAccount().setUsername(newUsername);
+                voter.getAccount().setPassword(newPassword);
+                voter.setUmur(newAge);
+        }
+    }
+
 
     public void pilihKandidat(int idKandidat, Voter voter) {
         Kandidat kandidat = getKandidatById(idKandidat);
@@ -65,6 +74,13 @@ public class VotingSystem {
             }
         }
         return null;
+    }
+
+    public void dataPemilih() {
+        System.out.println("Jumlah Pemilih: " + voter.size());
+        for (Voter voter2 : voter) {
+            System.out.println(voter2.getId() + ". " + voter2.getNama() + " (" + voter2.getUmur() + ")" + " : "+ (voter2.isVoting() ? "sudah memilih" : "belum memilih"));
+        }
     }
 
 

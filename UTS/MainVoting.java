@@ -10,8 +10,7 @@ public class MainVoting {
         Scanner scanner = new Scanner(System.in);
         int pilih;
 
-        VoterAcc ac = new VoterAcc("dave", "dave123");
-        Voter voter69 = new Voter(1, "Dave", 21, ac);
+        VoterAcc voter69 = new VoterAcc(1, "dave", 21, "dave", "dave123");
         votingSystem.addVoter(voter69);
 
         Kandidat kandidat99 = new Kandidat(1, "Prabowo", "Gerindra");
@@ -50,17 +49,12 @@ public class MainVoting {
                             System.out.print("Masukkan umur: ");
                             int voterAge = scanner.nextInt();
 
-                            VoterAcc acc = new VoterAcc(voterUsername, voterPassword);
-                            Voter voter = new Voter(voterId, voterName, voterAge, acc);
-                            admin.addVoter(votingSystem, voter);
+                            VoterAcc acc = new VoterAcc(voterId, voterName, voterAge, voterUsername, voterPassword);
+                            admin.addVoter(votingSystem, acc);
                             break;
 
                         case 2:
-                            List<Voter> voterList = votingSystem.getVoter();
-                            System.out.println("Daftar Pemilih:");
-                            for (Voter voter2 : voterList) {
-                                System.out.println(voter2.getId() + ". " + voter2.getNama() + " (" + voter2.getUmur() + ")" + " : "+ (voter2.isVoting() ? "sudah memilih" : "belum memilih"));
-                            }
+                            votingSystem.dataPemilih();
                             break;
 
                         case 3:
