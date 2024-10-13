@@ -24,6 +24,8 @@ public class Admin {
                 voter.setNama(newName);
                 voter.setUmur(newAge);
                 break;
+            } else {
+                System.out.println("Data tidak ditemukan!");
             }
         }
     }
@@ -33,6 +35,8 @@ public class Admin {
             if (kandidat.getId() == idKandidat) {
                 kandidat.setNama(newName);
                 kandidat.setPartai(newPartai);
+            } else {
+                System.out.println("Data tidak ditemukan!");
             }
         }
     }
@@ -46,6 +50,10 @@ public class Admin {
     public void deleteKandidat(VotingSystem votingSystem, int kandidatId) {
         List<Kandidat> kandidatList = votingSystem.getKandidat();
         kandidatList.removeIf(voter -> voter.getId() == kandidatId);
+    }
+
+    public boolean login(String username, String password) {
+        return this.username.equals(username) && this.password.equals(password);
     }
     
 }

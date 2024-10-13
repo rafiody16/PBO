@@ -27,7 +27,7 @@ public class MainVoting {
             String password = scanner.next();
             VoterAcc voterLogin = votingSystem.loginVoter(username, password);
 
-            if (username.equals("admin") && password.equals("password")) {
+            if (admin.login(username, password) == true) {
                 loggedIn = true;
                 while (loggedIn) {
                     System.out.println("\nAdmin Menu:");
@@ -70,14 +70,11 @@ public class MainVoting {
                             break;
 
                         case 4:
-                            List<Kandidat> kandidatList = votingSystem.getKandidat();
-                            System.out.println("Daftar Kandidat:");
-                            for (Kandidat kandidat2 : kandidatList) {
-                                System.out.println(kandidat2.getId() + ". " + kandidat2.getNama() + " (" + kandidat2.getPartai() + ")");
-                            }
+                            votingSystem.dataKandidat();
                             break;
 
                         case 5:
+                            votingSystem.dataPemilih();
                             System.out.print("Masukkan id voter untuk update: ");
                             int updateVoterId = scanner.nextInt();
                             System.out.print("Masukkan nama baru: ");
@@ -89,24 +86,27 @@ public class MainVoting {
                             break;
 
                         case 6:
-                            System.out.print("Enter kandidat ID to update: ");
+                            votingSystem.dataKandidat();
+                            System.out.print("Masukkan id kandidat untuk update: ");
                             int updateKandidatId = scanner.nextInt();
-                            System.out.print("Enter new kandidat name: ");
+                            System.out.print("Masukkan nama baru: ");
                             String newKandidatName = scanner.next();
-                            System.out.print("Enter new kandidat party: ");
+                            System.out.print("Masukkan partai baru: ");
                             String newKandidatParty = scanner.next();
 
                             admin.updateKandidat(votingSystem, updateKandidatId, newKandidatName, newKandidatParty);
                             break;
 
                         case 7:
-                            System.out.print("Enter voter ID to delete: ");
+                            votingSystem.dataPemilih();
+                            System.out.print("Masukkan ID pemilih: ");
                             int deleteVoterId = scanner.nextInt();
                             admin.deleteVoter(votingSystem, deleteVoterId);
                             break;
 
                         case 8:
-                            System.out.print("Enter kandidat ID to delete: ");
+                            votingSystem.dataKandidat();
+                            System.out.print("Masukkan ID kandidat: ");
                             int deleteKandidatId = scanner.nextInt();
                             admin.deleteKandidat(votingSystem, deleteKandidatId);
                             break;

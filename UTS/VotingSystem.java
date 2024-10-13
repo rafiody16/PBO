@@ -77,10 +77,31 @@ public class VotingSystem {
     }
 
     public void dataPemilih() {
-        System.out.println("Jumlah Pemilih: " + voter.size());
+        System.out.println("+----+----------------------+-------+-----------------+");
+        System.out.println("| ID | Nama                 | Umur  | Status Memilih   |");
+        System.out.println("+----+----------------------+-------+-----------------+");
         for (Voter voter2 : voter) {
-            System.out.println(voter2.getId() + ". " + voter2.getNama() + " (" + voter2.getUmur() + ")" + " : "+ (voter2.isVoting() ? "sudah memilih" : "belum memilih"));
+            System.out.printf("| %-2d | %-20s | %-5d | %-15s |\n",
+            voter2.getId(),
+            voter2.getNama(),
+            voter2.getUmur(),
+            (voter2.isVoting() ? "sudah memilih" : "belum memilih"));
         }
+        System.out.println("+----+----------------------+-------+-----------------+");
+        System.out.println("Jumlah Pemilih: " + voter.size());
+    }
+
+    public void dataKandidat() {
+        System.out.println("+----+----------------------+------------------+");
+        System.out.println("| ID | Nama                 | Partai           |");
+        System.out.println("+----+----------------------+------------------+");
+        for (Kandidat kandidat : kandidat) {
+            System.out.printf("| %-2d | %-20s | %-16s |\n",
+                kandidat.getId(),
+                kandidat.getNama(),
+                kandidat.getPartai());
+        }
+        System.out.println("+----+----------------------+------------------+");
     }
 
 
