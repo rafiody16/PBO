@@ -5,7 +5,6 @@ public class VotingSystem {
     private List<Voter> voter;
     private List<Kandidat> kandidat;
     private List<Vote> vote;
-    private List<Vote> admin;
 
     public VotingSystem() {
         voter = new ArrayList<>();
@@ -42,52 +41,67 @@ public class VotingSystem {
         return null;
     }
 
-    public void pilihKandidat(int idKandidat) {
+
+    public void pilihKandidat(int idKandidat, Voter voter) {
         Kandidat kandidat = getKandidatById(idKandidat);
         if (kandidat != null) {
-            Vote vote = new Vote(idKandidat, this);
-            addVote(vote);
-            System.out.println("Kandidat dipilih");
+            if (!voter.isVoting()) {
+                Vote vote = new Vote(idKandidat, this);
+                addVote(vote);
+                System.out.println("Anda telah memilih " + kandidat.getNama() + " dengan partai " + kandidat.getPartai());  
+                voter.setVoting(true);
+            } else {
+                System.out.println("Anda sudah melakukan voting!");
+            }
         } else {
-            System.out.println("Kandidat tidak ditemukan");
+            System.out.println("Kandidat tidak ditemukan!");
         }
     }
 
-    public boolean loginVoter(String username, String password) {
+    public Voter loginVoter(String username, String password) {
         for (Voter voter : voter) {
             if (voter.getAccount().getUsername().equals(username) && voter.getAccount().getPassword().equals(password)) {
-                return true;
+                return voter;
             }
         }
-        return false;
+        return null;
     }
 
 
     public void hasilVoting() {
-        int totalVotes = 0;
-        Kandidat winner = null;
-        int maxVotes = 0;
+        int totalVote = 0;
+        Kandidat pemenang = null;
+        int maxVote = 0;
+
+        System.out.println("+----+------------------------------------+--------------------+--------------+");
+        System.out.println("| ID | Nama Kandidat                     | Partai             | Jumlah Suara |");
+        System.out.println("+----+------------------------------------+--------------------+--------------+");
 
         for (Kandidat kandidat : kandidat) {
-            int candidateVotes = 0;
+            int kandidatTerpilih = 0;
             for (Vote vote : vote) {
-                if (vote.getCandidate().equals(kandidat)) {
-                    candidateVotes++;
+                if (vote.getKandidat().equals(kandidat)) {
+                    kandidatTerpilih++;
                 }
             }
 
-            totalVotes += candidateVotes;
+            totalVote += kandidatTerpilih;
 
-            if (candidateVotes > maxVotes) {
-                maxVotes = candidateVotes;
-                winner = kandidat;
+            if (kandidatTerpilih > maxVote) {
+                maxVote = kandidatTerpilih;
+                pemenang = kandidat;
             }
 
-            System.out.println(kandidat.getNama() + " (" + kandidat.getPartai() + "): " + candidateVotes + " suara");    
+            System.out.printf("| %-2d | %-34s | %-18s | %-12d |\n", kandidat.getId(), kandidat.getNama(), kandidat.getPartai(), kandidatTerpilih);
+            System.out.println("+----+------------------------------------+--------------------+--------------+");   
         }
 
-        System.out.println("Total Suara: " + totalVotes);
-        System.out.println("Pemenang: " + winner.getNama() + " (" + winner.getPartai() + ") dengan " + maxVotes + " suara");
+        System.out.println("Total Suara: " + totalVote);
+        if (pemenang == null) {
+            System.out.println("Suara masih kosong!");
+        } else {
+            System.out.println("Pemenang: " + pemenang.getNama() + " (" + pemenang.getPartai() + ") dengan " + maxVote + " suara");
+        }
 
     }
 

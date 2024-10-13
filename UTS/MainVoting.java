@@ -8,11 +8,16 @@ public class MainVoting {
         Admin admin = new Admin("admin", "password");
         VotingSystem votingSystem = new VotingSystem();
         Scanner scanner = new Scanner(System.in);
-        int choice;
+        int pilih;
 
         VoterAcc ac = new VoterAcc("dave", "dave123");
         Voter voter69 = new Voter(1, "Dave", 21, ac);
         votingSystem.addVoter(voter69);
+
+        Kandidat kandidat99 = new Kandidat(1, "Prabowo", "Gerindra");
+        admin.addKandidat(votingSystem, kandidat99);
+        Kandidat kandidat91 = new Kandidat(2, "Jokowi", "PDIP");
+        admin.addKandidat(votingSystem, kandidat91);
 
         boolean loggedIn = false;
         while (!loggedIn) {
@@ -21,26 +26,18 @@ public class MainVoting {
             String username = scanner.next();
             System.out.print("Password: ");
             String password = scanner.next();
+            Voter voterLogin = votingSystem.loginVoter(username, password);
 
             if (username.equals("admin") && password.equals("password")) {
                 loggedIn = true;
                 while (loggedIn) {
                     System.out.println("\nAdmin Menu:");
-                    System.out.println("1. Tambah Pemilih ");
-                    System.out.println("2. Daftar Pemilih ");
-                    System.out.println("3. Tambah Kandidat");
-                    System.out.println("4. Daftar Kandidat");
-                    System.out.println("5. Update Voter");
-                    System.out.println("6. Update Kandidat");
-                    System.out.println("7. Delete Voter");
-                    System.out.println("8. Delete Kandidat");
-                    System.out.println("9. Logout");
-                    System.out.println("0. Exit");
+                    System.out.println("1. Tambah Pemilih\n2. Daftar Pemilih\n3. Tambah Kandidat\n4. Daftar Kandidat\n5. Update Voter\n6. Update Kandidat\n7. Delete Voter\n8. Delete Kandidat\n9. Hasil Voting\n10. Logout\n0. Exit");
 
-                    System.out.print("Enter your choice: ");
-                    choice = scanner.nextInt();
+                    System.out.print("Enter your pilih: ");
+                    pilih = scanner.nextInt();
 
-                    switch (choice) {
+                    switch (pilih) {
                         case 1:
                             System.out.print("Masukkan ID: ");
                             int voterId = scanner.nextInt();
@@ -62,12 +59,11 @@ public class MainVoting {
                             List<Voter> voterList = votingSystem.getVoter();
                             System.out.println("Daftar Pemilih:");
                             for (Voter voter2 : voterList) {
-                                System.out.println(voter2.getId() + ". " + voter2.getNama() + " (" + voter2.getUmur() + ")");
+                                System.out.println(voter2.getId() + ". " + voter2.getNama() + " (" + voter2.getUmur() + ")" + " : "+ (voter2.isVoting() ? "sudah memilih" : "belum memilih"));
                             }
                             break;
 
                         case 3:
-                            // Tambah kandidat
                             System.out.print("Masukkan ID: ");
                             int kandidatId = scanner.nextInt();
                             System.out.print("Masukkan nama: ");
@@ -121,6 +117,9 @@ public class MainVoting {
                             admin.deleteKandidat(votingSystem, deleteKandidatId);
                             break;
                         case 9:
+                            votingSystem.hasilVoting();
+                            break;
+                        case 10:
                             loggedIn = false; 
                             System.out.println("Admin logged out.");
                             break;
@@ -129,18 +128,18 @@ public class MainVoting {
                             break;
 
                         default:
-                            System.out.println("Invalid choice. Please try again.");
+                            System.out.println("Invalid pilih. Please try again.");
                     }
                 }
-            } else if (votingSystem.loginVoter(username, password)) {
+            } else if (voterLogin != null) {
                 loggedIn = true;
                 while (true) {
                     System.out.println("\nVoting System");
                     System.out.println("1. Pilih Kandidat\n2. Hasil Voting\n3. Logout\n4. Exit");
-                    System.out.print("Enter your choice: ");
-                    choice = scanner.nextInt();
+                    System.out.print("Enter your pilih: ");
+                    pilih = scanner.nextInt();
                     
-                    switch (choice) {
+                    switch (pilih) {
                         case 1:
                             List<Kandidat> kandidatList = votingSystem.getKandidat();
                             System.out.println("Daftar Kandidat:");
@@ -149,7 +148,7 @@ public class MainVoting {
                             }
                             System.out.print("Masukkan ID kandidat: ");
                             int candidateId = scanner.nextInt();
-                            votingSystem.pilihKandidat(candidateId);
+                            votingSystem.pilihKandidat(candidateId, voterLogin);
                             break;
 
                         case 2:
@@ -161,7 +160,7 @@ public class MainVoting {
                             break;
 
                         case 4:
-                            System.out.println("Exiting...");
+                            System.exit(0);
                             break;
 
                         default:

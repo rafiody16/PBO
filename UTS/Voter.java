@@ -2,13 +2,13 @@ public class Voter extends Person{
 
     private int umur;
     private VoterAcc account;
+    private boolean isVoting;
 
     public Voter(int id, String nama, int umur, VoterAcc account) {
         super(id, nama);
-        if (umur >= 17) {
-            this.umur = umur;   
-        }
+        this.umur = umur;  
         this.account = account;
+        this.isVoting = false;
     }
 
     public int getUmur() {
@@ -30,6 +30,14 @@ public class Voter extends Person{
 
     public void addAccount(VoterAcc account) {
         this.account = account;
+    }
+
+    public boolean isVoting() {
+        return isVoting;
+    }
+
+    public void setVoting(boolean voting) {
+        isVoting = voting;
     }
     
 }

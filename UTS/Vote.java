@@ -9,7 +9,7 @@ public class Vote {
     }
 
 
-    public Kandidat getCandidate() {
+    public Kandidat getKandidat() {
         return kandidat;
     }
 }
