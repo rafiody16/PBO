@@ -44,12 +44,30 @@ public class Admin {
 
     public void deleteVoter(VotingSystem votingSystem, int voterId) {
         List<VoterAcc> voterList = votingSystem.getVoter();
-        voterList.removeIf(voter -> voter.getId() == voterId);
+
+        boolean vtr = voterList.stream().anyMatch(v -> v.getId() == voterId);
+
+        if (vtr) {
+            voterList.removeIf(voter -> voter.getId() == voterId);
+            System.out.println("Pemilih berhasil dihapus!");
+        } else {
+            System.out.println("Pemilih tidak ditemukan!");
+        }
+
     }
 
     public void deleteKandidat(VotingSystem votingSystem, int kandidatId) {
         List<Kandidat> kandidatList = votingSystem.getKandidat();
-        kandidatList.removeIf(voter -> voter.getId() == kandidatId);
+
+        boolean kandidat = kandidatList.stream().anyMatch(k -> k.getId() == kandidatId);
+
+        if (kandidat) {
+            kandidatList.removeIf(voter -> voter.getId() == kandidatId);
+            System.out.println("Kandidat berhasil dihapus!");
+        } else {
+            System.out.println("Kandidat tidak ditemukan!");
+        }
+
     }
 
     public boolean login(String username, String password) {

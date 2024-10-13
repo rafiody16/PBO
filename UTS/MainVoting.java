@@ -129,7 +129,7 @@ public class MainVoting {
                 while (true) {
                     System.out.println("\nAplikasi Sistem Voting");
                     System.out.println("Selamat Datang "+ voterLogin.getNama());
-                    System.out.println("1. Pilih Kandidat\n2. Hasil Voting\n3. Logout\n4. Exit");
+                    System.out.println("1. Pilih Kandidat\n2. Hasil Voting\n3. Update Akun\n4. Logout\n0. Exit");
                     System.out.print("Pilih: ");
                     pilih = scanner.nextInt();
                     
@@ -175,7 +175,7 @@ public class MainVoting {
                             loggedIn = false;
                             break;
 
-                        case 5:
+                        case 0:
                             System.exit(0);
                             break;
 
