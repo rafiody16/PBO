@@ -10,7 +10,7 @@ public class Admin {
         this.password = password;
     }
 
-    public void addVoter(VotingSystem votingSystem, Voter voter) {
+    public void addVoter(VotingSystem votingSystem, VoterAcc voter) {
         votingSystem.addVoter(voter);
     }
 
@@ -39,7 +39,7 @@ public class Admin {
 
 
     public void deleteVoter(VotingSystem votingSystem, int voterId) {
-        List<Voter> voterList = votingSystem.getVoter();
+        List<VoterAcc> voterList = votingSystem.getVoter();
         voterList.removeIf(voter -> voter.getId() == voterId);
     }
 

@@ -1,13 +1,11 @@
 public class Voter extends Person{
 
     private int umur;
-    private VoterAcc account;
     private boolean isVoting;
 
     public Voter(int id, String nama, int umur) {
         super(id, nama);
         this.umur = umur;  
-        this.account = account;
         this.isVoting = false;
     }
 
@@ -19,10 +17,6 @@ public class Voter extends Person{
         this.umur = umur;
     }
 
-    public VoterAcc getAccount() {
-        return account;
-    }
-    
     public boolean isVoting() {
         return isVoting;
     }

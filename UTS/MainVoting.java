@@ -5,7 +5,7 @@ public class MainVoting {
 
     public static void main(String[] args) {
 
-        Admin admin = new Admin("admin", "password");
+        Admin admin = new Admin("admin", "admin123");
         VotingSystem votingSystem = new VotingSystem();
         Scanner scanner = new Scanner(System.in);
         int pilih;
@@ -20,12 +20,12 @@ public class MainVoting {
 
         boolean loggedIn = false;
         while (!loggedIn) {
-            System.out.println("Welcome to Voting System");
+            System.out.println("Selamat Datang di Aplikasi Sistem Voting");
             System.out.print("Username: ");
             String username = scanner.next();
             System.out.print("Password: ");
             String password = scanner.next();
-            Voter voterLogin = votingSystem.loginVoter(username, password);
+            VoterAcc voterLogin = votingSystem.loginVoter(username, password);
 
             if (username.equals("admin") && password.equals("password")) {
                 loggedIn = true;
@@ -118,19 +118,19 @@ public class MainVoting {
                             System.out.println("Admin logged out.");
                             break;
                         case 0:
-                            System.out.println("Exiting...");
+                            System.exit(0);
                             break;
 
                         default:
-                            System.out.println("Invalid pilih. Please try again.");
                     }
                 }
             } else if (voterLogin != null) {
                 loggedIn = true;
                 while (true) {
-                    System.out.println("\nVoting System");
+                    System.out.println("\nAplikasi Sistem Voting");
+                    System.out.println("Selamat Datang "+ voterLogin.getNama());
                     System.out.println("1. Pilih Kandidat\n2. Hasil Voting\n3. Logout\n4. Exit");
-                    System.out.print("Enter your pilih: ");
+                    System.out.print("Pilih: ");
                     pilih = scanner.nextInt();
                     
                     switch (pilih) {
@@ -148,12 +148,34 @@ public class MainVoting {
                         case 2:
                             votingSystem.hasilVoting();
                             break;
-
+                        
                         case 3:
+                            System.out.println("Data Akun saat ini:");
+                            System.out.println("ID: " + voterLogin.getId() + "\nNama: "+ voterLogin.getNama() + "\nUsername: " + voterLogin.getUsername() + "\nPassword: " + voterLogin.getPassword() + "\nUmur: " + voterLogin.getUmur());
+                            System.out.println("Apakah anda yakin ingin mengganti data akun? (y/n)");
+                            System.out.print("Pilih: ");
+                            String confirm = scanner.next();
+                            if (confirm.equalsIgnoreCase("y")) {
+                                System.out.print("Masukkan nama: ");
+                                String voterName = scanner.next();
+                                System.out.print("Masukkan username: ");
+                                String voterUsername = scanner.next();
+                                System.out.print("Masukkan password: ");
+                                String voterPassword = scanner.next();
+                                System.out.print("Masukkan umur: ");
+                                int voterAge = scanner.nextInt();
+                                votingSystem.updateVoter(voterLogin.getId(), voterName, voterUsername, voterPassword, voterAge);   
+                                break;
+                            } else {
+                                System.out.println("Kembali ke menu ...");
+                                break;
+                            }
+
+                        case 4:
                             loggedIn = false;
                             break;
 
-                        case 4:
+                        case 5:
                             System.exit(0);
                             break;
 

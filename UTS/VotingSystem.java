@@ -2,7 +2,7 @@ import java.util.*;
 
 public class VotingSystem {
 
-    private List<Voter> voter;
+    private List<VoterAcc> voter;
     private List<Kandidat> kandidat;
     private List<Vote> vote;
 
@@ -12,7 +12,7 @@ public class VotingSystem {
         vote = new ArrayList<>();
     }
 
-    public void addVoter(Voter voter) {
+    public void addVoter(VoterAcc voter) {
         this.voter.add(voter);
     }
 
@@ -24,7 +24,7 @@ public class VotingSystem {
         this.vote.add(vote);
     }
 
-    public List<Voter> getVoter() {
+    public List<VoterAcc> getVoter() {
         return voter;
     }
 
@@ -41,11 +41,11 @@ public class VotingSystem {
         return null;
     }
 
-    public void updateVoter(String newName, String newUsername, String newPassword, int newAge) {
-        for (Voter voter : getVoter()) {
+    public void updateVoter(int idVoter, String newName, String newUsername, String newPassword, int newAge) {
+        for (VoterAcc voter : getVoter()) {
                 voter.setNama(newName);
-                voter.getAccount().setUsername(newUsername);
-                voter.getAccount().setPassword(newPassword);
+                voter.setUsername(newUsername);
+                voter.setPassword(newPassword);
                 voter.setUmur(newAge);
         }
     }
@@ -67,10 +67,10 @@ public class VotingSystem {
         }
     }
 
-    public Voter loginVoter(String username, String password) {
-        for (Voter voter : voter) {
-            if (voter.getAccount().getUsername().equals(username) && voter.getAccount().getPassword().equals(password)) {
-                return voter;
+    public VoterAcc loginVoter(String username, String password) {
+        for (VoterAcc voterAcc : voter) {
+            if (voterAcc.getUsername().equals(username) && voterAcc.getPassword().equals(password)) {
+                return voterAcc;
             }
         }
         return null;
