@@ -4,10 +4,13 @@ public class Admin {
 
     private String username;
     private String password;
+    private String login;
+    ArrayList<String> admin = new ArrayList<String>();
 
     public Admin(String username, String password) {
-        this.username = username;
-        this.password = password;
+        this.login = username + password;
+        admin.add(username);
+        admin.add(password);
     }
 
     public void addVoter(VotingSystem votingSystem, VoterAcc voter) {
@@ -67,11 +70,11 @@ public class Admin {
         } else {
             System.out.println("Kandidat tidak ditemukan!");
         }
-
     }
 
     public boolean login(String username, String password) {
-        return this.username.equals(username) && this.password.equals(password);
+        String auth = username + password;
+        return this.login.equals(auth);
     }
     
 }
