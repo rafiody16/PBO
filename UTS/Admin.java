@@ -26,6 +26,7 @@ public class Admin {
             if (voter.getId() == voterId) {
                 voter.setNama(newName);
                 voter.setUmur(newAge);
+                System.out.println("Data berhasil diubah");
                 break;
             } else {
                 System.out.println("Data tidak ditemukan!");
@@ -38,6 +39,8 @@ public class Admin {
             if (kandidat.getId() == idKandidat) {
                 kandidat.setNama(newName);
                 kandidat.setPartai(newPartai);
+                System.out.println("Data berhasil diubah");
+                break;
             } else {
                 System.out.println("Data tidak ditemukan!");
             }
