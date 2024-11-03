@@ -26,10 +26,11 @@ public class Manager extends Karyawan{
 
     public void viewStaff() {
         int i;
-        System.out.println("------------------");
+        // System.out.println("------------------");
         for (i = 0; i < st.length; i++) {
             st[i].lihatInfo();
         }
+        System.out.println();
         System.out.println("------------------");
     }
 

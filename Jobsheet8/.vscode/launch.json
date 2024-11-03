@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MainSegitiga",
+            "request": "launch",
+            "mainClass": "Tugas.Overloading.MainSegitiga",
+            "projectName": "Jobsheet8_f17e9bc1"
+        },
+        {
+            "type": "java",
             "name": "Utama",
             "request": "launch",
             "mainClass": "Utama",
