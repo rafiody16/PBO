@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MainManusia",
+            "request": "launch",
+            "mainClass": "Tugas.Overriding.MainManusia",
+            "projectName": "Jobsheet8_f17e9bc1"
+        },
+        {
+            "type": "java",
             "name": "MainSegitiga",
             "request": "launch",
             "mainClass": "Tugas.Overloading.MainSegitiga",
