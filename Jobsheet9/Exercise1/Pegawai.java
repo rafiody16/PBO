@@ -1,7 +1,8 @@
+package Exercise1;
 public class Pegawai {
 
-    protected static String nama;
-    protected static int gaji;
+    private String nama;
+    private int gaji;
 
     public Pegawai() {}
 
