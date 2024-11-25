@@ -4,6 +4,18 @@
  */
 package formant;
 
+import javax.swing.JCheckBox;
+import javax.swing.table.*;
+import java.security.Timestamp;
+import java.time.LocalDateTime;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.List;
+import java.text.*;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Broody
@@ -15,7 +27,59 @@ public class NewJFrame extends javax.swing.JFrame {
      */
     public NewJFrame() {
         initComponents();
+        loadDataToTable();
     }
+    
+    private void reset() {
+        txt_alamat.setText("");
+        txt_email.setText("");
+        txt_nama.setText("");
+        txt_notelp.setText("");
+        cmb_agama.setSelectedIndex(0);
+        
+        rb_jk_laki.setSelected(false);
+        rb_jk_perempuan.setSelected(false);
+        
+        btn_tambah.setEnabled(true);
+        btn_simpan.setEnabled(false);
+        jLabelForm.setText("FORM BIODATA");
+        
+        for (java.awt.Component comp : jPanelHobi.getComponents()) {
+            if (comp instanceof JCheckBox checkbox) {
+                if (checkbox.isSelected()) {
+                    checkbox.setSelected(false);
+                }
+            }
+        }
+    }
+    
+    private void loadDataToTable() {
+        try {
+            // inisiasi object BiodataDAO
+            BiodataDAO dao = new BiodataDAO();
+            // inisiasi variable untuk menampung data dari database
+            List<ArrayList> biodataList = dao.readBiodata(); 
+            // inisiasi model dari JTable
+            DefaultTableModel model = (DefaultTableModel) jTableBio.getModel();
+            model.setRowCount(0); // Hapus semua baris 
+            
+            for (ArrayList biodata : biodataList) {
+                String jk = biodata.get(2).equals("P") ? "Perempuan" : "Laki-Laki";
+                Object[] row = { 
+                    biodata.get(0), biodata.get(1),jk,
+                    biodata.get(3),  biodata.get(4), 
+                    biodata.get(5), biodata.get(6), 
+                    biodata.get(7),  biodata.get(8),
+                    biodata.get(9)
+                };
+                model.addRow(row);
+            }
+        } catch (SQLException e) { 
+            JOptionPane.showMessageDialog(this, "Gagal memuat data: " + e.getMessage());
+        }
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,8 +131,18 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txt_alamat);
 
         btn_simpan.setText("Simpan");
+        btn_simpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_simpanActionPerformed(evt);
+            }
+        });
 
         btn_tambah.setText("Tambah");
+        btn_tambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_tambahActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Alamat");
 
@@ -236,7 +310,7 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_simpan)
                     .addComponent(btn_tambah))
                 .addContainerGap(32, Short.MAX_VALUE))
@@ -276,8 +350,18 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel1.setText("Data Biodata");
 
         jButtonEdit.setText("Edit");
+        jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditActionPerformed(evt);
+            }
+        });
 
         jButtonDelete.setText("Delete");
+        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -345,6 +429,139 @@ public class NewJFrame extends javax.swing.JFrame {
     private void cb_hobi_olahragaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_hobi_olahragaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cb_hobi_olahragaActionPerformed
+
+    private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
+        try{
+            int i = jTableBio.getSelectedRow();
+            TableModel mdl = jTableBio.getModel();
+            
+            ArrayList<String> hobiArr = new ArrayList<>();
+            for (java.awt.Component comp : jPanelHobi.getComponents()) {
+                if (comp instanceof JCheckBox checkbox) {
+                    if (checkbox.isSelected()) {
+                        hobiArr.add(checkbox.getText());
+                    }
+                }
+            }
+            String hobi = String.join(",", hobiArr);
+            
+            Biodata bd = new Biodata();
+            bd.setId_biodata((int)(mdl.getValueAt(i, 0)));
+            bd.setNama_lengkap(txt_nama.getText());
+            bd.setJenis_kelamin(rb_jk_laki.isSelected()?"L":"P");
+            bd.setAgama(cmb_agama.getSelectedItem().toString());
+            bd.setAlamat(txt_alamat.getText());
+            bd.setEmail(txt_email.getText());
+            bd.setHobi(hobi);
+            bd.setNo_telp(txt_notelp.getText());
+            
+            BiodataDAO dao = new BiodataDAO();
+            String upd = dao.updateBiodata(bd);
+            
+            JOptionPane.showMessageDialog(rootPane, upd, "Success", HEIGHT);
+            reset();
+            loadDataToTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_simpanActionPerformed
+
+    private void btn_tambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_tambahActionPerformed
+        try {  
+            
+            int i = jTableBio.getSelectedRow(); 
+            TableModel mdl = jTableBio.getModel();
+        
+            
+            // ArrayList untuk menampung hobi yang dipilih
+            ArrayList<String> hobiArr = new ArrayList<>();
+            // Iterasi semua komponen di dalam panel
+            for (java.awt.Component comp : jPanelHobi.getComponents()) {
+                if (comp instanceof JCheckBox checkbox) { // Cek apakah komponen adalah JCheckBox
+                    if (checkbox.isSelected()) { // Cek apakah checkbox dipilih
+                        hobiArr.add(checkbox.getText()); // Tambahkan teks checkbox ke array
+                    }
+                }
+            }
+            // join text delimiter ","
+            String hobi = String.join(",", hobiArr);
+            
+            // set variable
+            Biodata bd = new Biodata();
+            bd.setNama_lengkap(txt_nama.getText());
+            bd.setJenis_kelamin(rb_jk_laki.isSelected() ? "L" : "P");
+            bd.setAgama(cmb_agama.getSelectedItem().toString());
+            bd.setAlamat(txt_alamat.getText());
+            bd.setEmail(txt_email.getText());
+            bd.setHobi(hobi);
+            bd.setNo_telp(txt_notelp.getText());
+            
+            BiodataDAO dao = new BiodataDAO();
+            String ins = dao.insert(bd);
+            
+            JOptionPane.showMessageDialog(rootPane, ins, "Success", HEIGHT);
+            
+            loadDataToTable();
+            reset();
+        } catch (SQLException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, "Error inserting data", ex);
+            JOptionPane.showMessageDialog(rootPane, "Database error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_tambahActionPerformed
+
+    private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
+        int i = jTableBio.getSelectedRow();
+        TableModel mdl = jTableBio.getModel();
+        jLabelForm.setText("Edit Data ID: "+mdl.getValueAt(i, 0).toString());
+        txt_nama.setText(mdl.getValueAt(i, 1).toString());
+        
+        if (mdl.getValueAt(i, 2).toString().equals("Perempuan")) {
+            rb_jk_perempuan.setSelected(true);
+        } else {
+            rb_jk_laki.setSelected(true);
+        }
+        
+        cmb_agama.setSelectedItem(mdl.getValueAt(i, 3).toString());
+        
+        String[] hobi = mdl.getValueAt(i, 4).toString().split("\\,");
+        
+        for (String hobi1 : hobi) {
+            for (java.awt.Component comp : jPanelHobi.getComponents()) {
+                if (comp instanceof JCheckBox checkbox) {
+                    if (checkbox.getText().equals(hobi)) {
+                        checkbox.setSelected(true);
+                    }
+                }
+            }
+        }
+        txt_email.setText(mdl.getValueAt(i, 5).toString());
+        txt_notelp.setText(mdl.getValueAt(i, 6).toString());
+        txt_alamat.setText(mdl.getValueAt(i, 7).toString());
+        
+        btn_tambah.setEnabled(false);
+        btn_simpan.setEnabled(true);
+        
+    }//GEN-LAST:event_jButtonEditActionPerformed
+
+    private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
+        int response = JOptionPane.showConfirmDialog(null,
+                "Anda yakin menghapus data ini?",
+                "Konfirmasi Hapus Data",
+                JOptionPane.OK_CANCEL_OPTION);
+        int i = jTableBio.getSelectedRow();
+        TableModel mdl = jTableBio.getModel();
+        if (response == JOptionPane.OK_OPTION) {
+            try {
+                BiodataDAO dao = new BiodataDAO();
+                String del = dao.deleteBiodata((int) mdl.getValueAt(i, 0));
+                
+                JOptionPane.showMessageDialog(rootPane, del, "Success", HEIGHT); 
+                loadDataToTable();
+            } catch (SQLException ex) {
+                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        } 
+    }//GEN-LAST:event_jButtonDeleteActionPerformed
 
     /**
      * @param args the command line arguments
