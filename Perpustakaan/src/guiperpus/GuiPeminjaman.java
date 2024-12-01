@@ -57,8 +57,8 @@ public class GuiPeminjaman extends javax.swing.JFrame {
         tblPeminjaman.setModel(new DefaultTableModel(new Object[][] {}, kolom));
         for(Peminjaman pj : list) {
             rowData[0] = pj.getIdpeminjaman();
-            rowData[1] = pj.getAnggota().getNama();
-            rowData[2] = pj.getBuku().getJudul();
+            rowData[1] = pj.getAnggota().getIdanggota();
+            rowData[2] = pj.getBuku().getIdBuku();
             rowData[3] = pj.getTanggalpinjam();
             rowData[4] = pj.getTanggalkembali();
             
@@ -377,46 +377,36 @@ public class GuiPeminjaman extends javax.swing.JFrame {
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         try {
-        // Check if any of the required fields are empty (except for ID Peminjaman)
-        if (txtIdAnggota.getText().isEmpty()) {
-            throw new NumberFormatException("ID Anggota cannot be empty!");
-        }
-        if (txtIdBuku.getText().isEmpty()) {
-            throw new NumberFormatException("ID Buku cannot be empty!");
-        }
-        if (txtTglPinjam.getText().isEmpty()) {
-            throw new NumberFormatException("Tanggal Pinjam cannot be empty!");
-        }
-        if (txtTglKembali.getText().isEmpty()) {
-            throw new NumberFormatException("Tanggal Kembali cannot be empty!");
-        }
+            if (txtIdAnggota.getText().isEmpty()) {
+                throw new NumberFormatException("ID Anggota cannot be empty!");
+            }
+            if (txtIdBuku.getText().isEmpty()) {
+                throw new NumberFormatException("ID Buku cannot be empty!");
+            }
+            if (txtTglPinjam.getText().isEmpty()) {
+                throw new NumberFormatException("Tanggal Pinjam cannot be empty!");
+            }
+            if (txtTglKembali.getText().isEmpty()) {
+                throw new NumberFormatException("Tanggal Kembali cannot be empty!");
+            }
+            Peminjaman pj = new Peminjaman();
+            Anggota ag = new Anggota();
+            Buku bk = new Buku();
 
-        // Create objects
-        Peminjaman pj = new Peminjaman();
-        Anggota ag = new Anggota();
-        Buku bk = new Buku();
+            pj.setIdpeminjaman(Integer.parseInt(txtIdPeminjaman.getText()));
+            ag.setIdanggota(Integer.parseInt(txtIdAnggota.getText()));
+            bk.setIdBuku(Integer.parseInt(txtIdBuku.getText()));
+            pj.setAnggota(ag);
+            pj.setBuku(bk);
+            pj.setTanggalpinjam(txtTglPinjam.getText());
+            pj.setTanggalkembali(txtTglKembali.getText());
         
-        // Set values for Anggota and Buku
-        pj.setIdpeminjaman(Integer.parseInt(txtIdPeminjaman.getText()));
-        ag.setIdanggota(Integer.parseInt(txtIdAnggota.getText()));
-        bk.setIdBuku(Integer.parseInt(txtIdBuku.getText()));
-        pj.setAnggota(ag);
-        pj.setBuku(bk);
-        pj.setTanggalpinjam(txtTglPinjam.getText());
-        pj.setTanggalkembali(txtTglKembali.getText());
-        
-        // Save the data (this will let the database auto-generate the ID)
-        pj.save();  // Assuming save() method handles ID generation automatically
-        
-        // After saving, retrieve and display the auto-generated ID
-        txtIdPeminjaman.setText(Integer.toString(pj.getIdpeminjaman()));
-        
-        // Update display
-        tampilkanData();
-    } catch (NumberFormatException ex) {
-        // Display a specific error message
-        JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
+            pj.save();  
+            txtIdPeminjaman.setText(Integer.toString(pj.getIdpeminjaman()));
+            tampilkanData();
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void txtTglPinjamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTglPinjamActionPerformed

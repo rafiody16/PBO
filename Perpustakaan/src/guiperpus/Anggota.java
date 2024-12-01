@@ -116,7 +116,7 @@ public class Anggota {
                         +"('"+this.nama+"', '"+this.alamat+"', '"+this.telepon+"')";
             this.idanggota = DBHelper.insertQueryGetId(SQL);
         } else {
-            String SQL = "UPDATE anggota SET"
+            String SQL = "UPDATE anggota SET "
                         +"nama = '"+this.nama+"', alamat = '"+this.alamat+"', telepon = '"+this.telepon+"'"
                         +"WHERE idanggota = '"+this.idanggota+"'";
             this.idanggota = DBHelper.insertQueryGetId(SQL);

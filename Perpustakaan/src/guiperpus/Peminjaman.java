@@ -151,7 +151,7 @@ public class Peminjaman {
         String formattedTanggalPinjam = (tanggalpinjam != null) ? DATE_FORMAT.format(tanggalpinjam) : null;
         String formattedTanggalKembali = (tanggalkembali != null) ? DATE_FORMAT.format(tanggalkembali) : null;
         if(getById(idpeminjaman).getIdpeminjaman() == 0){
-            String SQL = "INSERT INTO peminjaman (idanggota, idbuku, tanggalpinjam, tanggalkembali) VALUES"
+            String SQL = "INSERT INTO peminjaman (idanggota, idbuku, tanggalpinjam, tanggalkembali) VALUES "
                         +"('"+this.getAnggota().getIdanggota()+"', '"+this.getBuku().getIdBuku()+
                         "', '"+formattedTanggalPinjam+"', '"+formattedTanggalKembali+"')";
             this.idpeminjaman = DBHelper.insertQueryGetId(SQL);

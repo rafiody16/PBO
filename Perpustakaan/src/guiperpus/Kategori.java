@@ -114,8 +114,8 @@ public class Kategori {
                         +"('"+this.nama+"', '"+this.keterangan+"')";
             this.idkategori = DBHelper.insertQueryGetId(SQL);
         } else {
-            String SQL = "UPDATE kategori SET"
-                        +"nama = '"+this.nama+"', keterangan = '"+this.keterangan+"'"
+            String SQL = "UPDATE kategori SET "
+                        +"nama = '"+this.nama+"', keterangan = '"+this.keterangan+"' "
                         +"WHERE idkategori = '"+this.idkategori+"'";
             this.idkategori = DBHelper.insertQueryGetId(SQL);
         }
